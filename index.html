@@ -1,0 +1,359 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>PredGenSE: Time-Unconditional Generative Speech Enhancement With Predictive Guidance</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/user.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>PredGenSE: Time-Unconditional Generative Speech Enhancement With Predictive Guidance <small class="color_fade">Online Supplement</small>
+            </h1>
+        </header>
+
+        <h4> Authors </h4>
+        <div style="font-size: medium;"> Wenbin Jiang, Zhen Wang, Yang Zhang, Wen Zhang, and Xiaofeng Huang </div>
+        <h4> Abstract </h4>
+        <div style="font-size: medium;"> Most existing DNN-based speech enhancement (SE) methods are predictive and may struggle to generalize to unseen acoustic conditions, whereas recently emerging diffusion- and flow-matching-based generative SE methods can introduce perceptual artifacts and timbre distortions because their training objectives are not always well aligned with speech quality. To address these limitations, we propose PredGenSE, a unified end-to-end framework that integrates generative&ndash;predictive learning with time-unconditional autonomous rectified flow within a single neural ODE formulation. Specifically, by leveraging a linear interpolation path, the per-sample target velocity becomes time-invariant, motivating PredGenSE to eliminate explicit time-step conditioning and instead learn a stationary mapping from the current state and noisy observation to the target residual. Furthermore, we incorporate a differentiable ODE solver into the training process, enabling waveform-level reconstruction losses to be back-propagated through the entire generative trajectory, thereby jointly optimizing both the generative dynamics and the final speech reconstruction. Extensive experiments on two standard speech enhancement benchmarks (VoiceBank+DEMAND and WSJ0+CHiME3) and a universal SE benchmark demonstrate that PredGenSE achieves competitive performance against recent representative predictive, generative, and hybrid methods while requiring few function evaluations. </div>
+    </br>
+        <h4> Datasets </h4>
+        <div style="font-size: medium;">
+            <li>The <a href="https://datashare.ed.ac.uk/handle/10283/2791"> VoiceBank+DEMAND </a> dataset is used for demo. </li>
+            <li> The <a href="https://www.chimechallenge.org/index/chime3"> WSJ0+CHiME3 </a> benchmark (High-SNR subset) is used for demo. </li>
+            <li> The universal SE benchmark uses the <a href="https://github.com/microsoft/DNS-Challenge"> DNS Challenge 2021 </a> synthetic no-reverb test set. </li>
+            <li> Audio samples of the test sets we processed are available at the repository (VCTK+DEMAND, WSJ0+CHiME3, and DNS2021 test sets).</li>
+        </div>
+    </br>
+        <h4> Compared methods </h4>
+        <div style="font-size: medium;">
+            <li>OMLSA: <a href="https://israelcohen.com/software/">Speech enhancement for non-stationary noise environments</a></li>
+            <li>DCCRN: <a href="https://github.com/huyanxin/DeepComplexCRN">DCCRN: Deep Complex Convolution Recurrent Network for Phase-Aware Speech Enhancement</a></li>
+            <li>FullSubNet: <a href="https://github.com/Audio-WestlakeU/FullSubNet">FullSubNet: A Full-Band and Sub-Band Fusion Model for Real-Time Single-Channel Speech Enhancement</a></li>
+            <li>TF-GridNet: <a href="https://huggingface.co/wyz/tfgridnet_for_urgent24">TF-GridNet: Integrating full- and sub-band modeling for speech separation</a></li>
+            <li>MP-SENet: <a href="https://github.com/yxlu-0102/MP-SENet">MP-SENet: A Speech Enhancement Model with Parallel Denoising of Magnitude and Phase Spectra</a></li>
+            <li>CDiffuSE: <a href="https://github.com/neillu23/cdiffuse">Conditional diffusion probabilistic model for speech enhancement</a></li>
+            <li>SGMSE+: <a href="https://github.com/sp-uhh/sgmse">Speech enhancement and dereverberation with diffusion-based generative models</a></li>
+            <li>FlowSE-Vocos: <a href="https://github.com/Honee-W/FlowSE">FlowSE: Efficient and High-Quality Speech Enhancement via Flow Matching</a></li>
+            <li>FlowSE-TF: <a href="https://github.com/seongq/flowmse">FlowSE: Flow Matching-based Speech Enhancement</a></li>
+            <li>CTFSE: <a href="https://github.com/seongq/cascadingtwoflowmatching">Speech Enhancement based on cascaded two flows</a></li>
+            <li>GALD-SE: <a href="https://github.com/wangchengzhong/GALDSE">GALD-SE: Guided Anisotropic Lightweight Diffusion for Efficient Speech Enhancement</a></li>
+            <li>STORM: <a href="https://github.com/sp-uhh/storm">StoRM: A diffusion-based stochastic regeneration model for speech enhancement and dereverberation</a></li>
+            <li>Diffiner: <a href="https://github.com/sony/diffiner">Diffiner: A Versatile Diffusion-based Generative Refiner for Speech Enhancement</a></li>
+            <li>PGUSE: <a href="https://github.com/hyyan2k/PGUSE">A Composite Predictive-Generative Approach to Monaural Universal Speech Enhancement</a></li>
+            <li>UNIVERSE++: <a href="https://github.com/line/open-universe">Universal Score-based Speech Enhancement with High Content Preservation</a></li>
+            <li>AnyEnhance: <a href="https://github.com/viewfinder-annn/AnyEnhance-v1">AnyEnhance: A Unified Generative Model With Prompt-Guidance and Self-Critic for Voice Enhancement</a></li>
+            <li>SenSE: <a href="https://github.com/ASLP-lab/SenSE">SenSE: Semantic-Aware High-Fidelity Universal Speech Enhancement</a></li>
+            <li>UDSE: <a href="https://github.com/fliu215/UDSE_Code">Universal Discrete-Domain Speech Enhancement</a></li>
+            <li>PredGenSE: L, M, S, and T denote the Large, Medium, Small, and Tiny backbones, respectively. The value in parentheses denotes the NFE.</li>
+        </div>
+    </br>
+        <h4> Audio Samples </h4>
+        Metrics reported on the spectrograms: ViSQOL, SI-SNR, and DNSMOS (OVL).
+        <h3>VoiceBank+DEMAND</h3>
+                <table class="table ">
+            <thead>
+                <tr>
+                    <th>Model\id(noise)</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr> <td>Clean</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Clean/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Clean/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Clean/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Clean/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Clean/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>Noisy</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Noisy/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Noisy/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Noisy/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Noisy/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Noisy/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>OMLSA</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/OMLSA/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/OMLSA/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/OMLSA/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/OMLSA/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/OMLSA/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>DCCRN</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/DCCRN/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/DCCRN/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/DCCRN/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/DCCRN/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/DCCRN/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>FullSubNet</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FullSubNet/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FullSubNet/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FullSubNet/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FullSubNet/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FullSubNet/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>TF-GridNet</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/TF-GridNet/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/TF-GridNet/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/TF-GridNet/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/TF-GridNet/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/TF-GridNet/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>MP-SENet</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/MP-SENet/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/MP-SENet/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/MP-SENet/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/MP-SENet/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/MP-SENet/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>CDiffuSE</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/CDiffuSE/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/CDiffuSE/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/CDiffuSE/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/CDiffuSE/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/CDiffuSE/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>SGMSE+</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/SGMSE+/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/SGMSE+/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/SGMSE+/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/SGMSE+/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/SGMSE+/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>FlowSE-Vocos</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FlowSE-Vocos/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FlowSE-Vocos/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FlowSE-Vocos/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FlowSE-Vocos/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FlowSE-Vocos/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>FlowSE-TF</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FlowSE-TF/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FlowSE-TF/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FlowSE-TF/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FlowSE-TF/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/FlowSE-TF/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>CTFSE</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/CTFSE/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/CTFSE/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/CTFSE/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/CTFSE/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/CTFSE/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>StoRM</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/StoRM/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/StoRM/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/StoRM/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/StoRM/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/StoRM/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>Diffiner</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Diffiner/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Diffiner/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Diffiner/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Diffiner/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/Diffiner/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>PGUSE</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PGUSE/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PGUSE/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PGUSE/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PGUSE/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PGUSE/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>PredGenSE-T (1)</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PredGenSE_Tiny_1step/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PredGenSE_Tiny_1step/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PredGenSE_Tiny_1step/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PredGenSE_Tiny_1step/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PredGenSE_Tiny_1step/p232_300.wav"></audio></td>
+                </tr>
+                <tr> <td>PredGenSE-T (5)</td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PredGenSE_Tiny_5step/p257_280.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PredGenSE_Tiny_5step/p257_173.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PredGenSE_Tiny_5step/p257_136.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PredGenSE_Tiny_5step/p232_258.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/VCTK_DEMAND/PredGenSE_Tiny_5step/p232_300.wav"></audio></td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Spectrogram of the first-column sample p257_280 (VoiceBank+DEMAND)</h4>
+        <img src="img/p257_280.png" class="container">
+    </br>
+        <h3>WSJ0+CHiME3 (High SNR, 0~20 dB)</h3>
+                <table class="table ">
+            <thead>
+                <tr>
+                    <th>Model\id(noise)</th>
+                    <th>17.1 dB</th>
+                    <th>12.1 dB</th>
+                    <th>16.8 dB</th>
+                    <th>18.3 dB</th>
+                    <th>15.4 dB</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr> <td>Clean</td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/Clean/446c0206_404_snr=17.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/Clean/447c0202_375_snr=12.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/Clean/441c0215_221_snr=16.8.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/Clean/442c0211_505_snr=18.3.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/Clean/442c0213_555_snr=15.4.wav"></audio></td>
+                </tr>
+                <tr> <td>Noisy</td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/Noisy/446c0206_404_snr=17.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/Noisy/447c0202_375_snr=12.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/Noisy/441c0215_221_snr=16.8.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/Noisy/442c0211_505_snr=18.3.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/Noisy/442c0213_555_snr=15.4.wav"></audio></td>
+                </tr>
+                <tr> <td>GALD-SE</td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/GALD-SE/446c0206_404_snr=17.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/GALD-SE/447c0202_375_snr=12.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/GALD-SE/441c0215_221_snr=16.8.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/GALD-SE/442c0211_505_snr=18.3.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/GALD-SE/442c0213_555_snr=15.4.wav"></audio></td>
+                </tr>
+                <tr> <td>SGMSE+</td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/SGMSE+/446c0206_404_snr=17.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/SGMSE+/447c0202_375_snr=12.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/SGMSE+/441c0215_221_snr=16.8.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/SGMSE+/442c0211_505_snr=18.3.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/SGMSE+/442c0213_555_snr=15.4.wav"></audio></td>
+                </tr>
+                <tr> <td>STORM</td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/STORM/446c0206_404_snr=17.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/STORM/447c0202_375_snr=12.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/STORM/441c0215_221_snr=16.8.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/STORM/442c0211_505_snr=18.3.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/STORM/442c0213_555_snr=15.4.wav"></audio></td>
+                </tr>
+                <tr> <td>FlowSE-TF</td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/FlowSE-TF/446c0206_404_snr=17.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/FlowSE-TF/447c0202_375_snr=12.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/FlowSE-TF/441c0215_221_snr=16.8.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/FlowSE-TF/442c0211_505_snr=18.3.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/FlowSE-TF/442c0213_555_snr=15.4.wav"></audio></td>
+                </tr>
+                <tr> <td>CTFSE</td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/CTFSE/446c0206_404_snr=17.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/CTFSE/447c0202_375_snr=12.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/CTFSE/441c0215_221_snr=16.8.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/CTFSE/442c0211_505_snr=18.3.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/CTFSE/442c0213_555_snr=15.4.wav"></audio></td>
+                </tr>
+                <tr> <td>PredGenSE-T (5)</td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/PredGenSE_Tiny_5step/446c0206_404_snr=17.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/PredGenSE_Tiny_5step/447c0202_375_snr=12.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/PredGenSE_Tiny_5step/441c0215_221_snr=16.8.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/PredGenSE_Tiny_5step/442c0211_505_snr=18.3.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/PredGenSE_Tiny_5step/442c0213_555_snr=15.4.wav"></audio></td>
+                </tr>
+                <tr> <td>PredGenSE-T (1)</td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/PredGenSE_Tiny/446c0206_404_snr=17.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/PredGenSE_Tiny/447c0202_375_snr=12.1.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/PredGenSE_Tiny/441c0215_221_snr=16.8.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/PredGenSE_Tiny/442c0211_505_snr=18.3.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/WSJ0_CHiME3/PredGenSE_Tiny/442c0213_555_snr=15.4.wav"></audio></td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Spectrogram of the first-column sample 446c0206_404 (SNR 17.1 dB, WSJ0+CHiME3)</h4>
+        <img src="img/446c0206_404.png" class="container">
+    </br>
+        <h3>DNS No Reverb (Universal SE)</h3>
+                <table class="table ">
+            <thead>
+                <tr>
+                    <th>Model\id(noise)</th>
+                    <th>72</th>
+                    <th>112</th>
+                    <th>220</th>
+                    <th>26</th>
+                    <th>191</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr> <td>Clean</td>
+                    <td><audio controls=""><source src="samples/DNS/Clean/72.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/Clean/112.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/Clean/220.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/Clean/26.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/Clean/191.wav"></audio></td>
+                </tr>
+                <tr> <td>Noisy</td>
+                    <td><audio controls=""><source src="samples/DNS/Noisy/72.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/Noisy/112.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/Noisy/220.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/Noisy/26.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/Noisy/191.wav"></audio></td>
+                </tr>
+                <tr> <td>AnyEnhance</td>
+                    <td><audio controls=""><source src="samples/DNS/AnyEnhance/72.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/AnyEnhance/112.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/AnyEnhance/220.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/AnyEnhance/26.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/AnyEnhance/191.wav"></audio></td>
+                </tr>
+                <tr> <td>UNIVERSE++</td>
+                    <td><audio controls=""><source src="samples/DNS/UNIVERSE++/72.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/UNIVERSE++/112.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/UNIVERSE++/220.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/UNIVERSE++/26.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/UNIVERSE++/191.wav"></audio></td>
+                </tr>
+                <tr> <td>PGUSE</td>
+                    <td><audio controls=""><source src="samples/DNS/PGUSE/72.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PGUSE/112.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PGUSE/220.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PGUSE/26.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PGUSE/191.wav"></audio></td>
+                </tr>
+                <tr> <td>SenSE</td>
+                    <td><audio controls=""><source src="samples/DNS/SenSE/72.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/SenSE/112.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/SenSE/220.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/SenSE/26.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/SenSE/191.wav"></audio></td>
+                </tr>
+                <tr> <td>UDSE</td>
+                    <td><audio controls=""><source src="samples/DNS/UDSE/72.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/UDSE/112.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/UDSE/220.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/UDSE/26.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/UDSE/191.wav"></audio></td>
+                </tr>
+                <tr> <td>PredGenSE-T (1)</td>
+                    <td><audio controls=""><source src="samples/DNS/PredGenSE/72.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PredGenSE/112.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PredGenSE/220.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PredGenSE/26.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PredGenSE/191.wav"></audio></td>
+                </tr>
+                <tr> <td>PredGenSE-T (5)</td>
+                    <td><audio controls=""><source src="samples/DNS/PredGenSE_5step/72.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PredGenSE_5step/112.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PredGenSE_5step/220.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PredGenSE_5step/26.wav"></audio></td>
+                    <td><audio controls=""><source src="samples/DNS/PredGenSE_5step/191.wav"></audio></td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Spectrogram of the first-column sample fileid 72 (DNS No Reverb)</h4>
+        <img src="img/dns_no_reverb_72.png" class="container">
+    </br>
+        <div class="row"> &nbsp; </div> <br/>
+
+    </div>
+</body>
+</html>
